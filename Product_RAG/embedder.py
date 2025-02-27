@@ -106,8 +106,8 @@ def save_metadata(metadata, output_file):
         json.dump(metadata, f, indent=4)
 
 # Main execution
-data_directory = "/home/rptech_server/llm_env/Product_RAG/data"
-metadata_output_file = "/home/rptech_server/llm_env/Product_RAG/metadata_output.json"
+data_directory = "./data"
+metadata_output_file = "./metadata_output.json"
 
 # System prompt and model setup
 system_prompt = """
@@ -149,4 +149,4 @@ index = VectorStoreIndex.from_documents(
 )
 
 # Save the index
-index.storage_context.persist(persist_dir='/home/rptech_server/llm_env/Product_RAG/index_directory/Jetson_AGX_Orin')
+index.storage_context.persist(persist_dir='./index_directory/Jetson_AGX_Orin')
