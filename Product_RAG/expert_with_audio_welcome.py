@@ -34,7 +34,7 @@ embed_model = LangchainEmbedding(
     HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")
 )
 
-index_directory = "index_directory"
+index_directory = "./index_directory"
 
 # Define available products
 PRODUCTS = {
