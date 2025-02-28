@@ -155,5 +155,5 @@ def transcribe_audio():
             return jsonify({'error': f'Processing error: {str(e)}', 'status': 'processing_error'}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5001, ssl_context=("/home/rptech/cert.pem", "/home/rptech/key.pem"))
+    app.run(debug=True, host='0.0.0.0', port=5001, ssl_context=("./cert.pem", "./key.pem"))
     
