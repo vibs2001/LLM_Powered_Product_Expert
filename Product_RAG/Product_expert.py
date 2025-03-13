@@ -39,7 +39,18 @@ index_directory = "./index_directory"
 # Define available products
 PRODUCTS = {
     "Holtek_Ceiling_fan_Controller": "Holtek_Ceiling_fan_Controller",
-    "Jetson_AGX_Orin": "Jetson_AGX_Orin"
+    "Holtek_high_voltage_BLDC_Motor_driver": "Holtek_high_voltage_BLDC_Motor_driver",
+    "Holtek_Low_voltage_High_Power_BLDC_Motor_Driver": "Holtek_Low_voltage_High_Power_BLDC_Motor_Driver",
+    "Elmos_E521.39_Knob_Illumination": "Elmos_E521.39_Knob_Illumination",
+    "Elmos_E522.88_Automotive_Sequential_Light_Demo": "Elmos_E522.88_Automotive_Sequential_Light_Demo",
+    "Elmos_E522.95_CAN_Based_Automotive_Sequential_Light": "Elmos_E522.95_CAN_Based_Automotive_Sequential_Light",
+    "Elmos_E523.06_300W_BLDC_Motor_Control_For_Cooling_Fan": "Elmos_E523.06_300W_BLDC_Motor_Control_For_Cooling_Fan",
+    "Elmos_E523.63_Coolant_Control_Valve": "Elmos_E523.63_Coolant_Control_Valve",
+    "Elmos_E533.06_Automotive_2-Wheeler_Radiator": "Elmos_E533.06_Automotive_2-Wheeler_Radiator",
+    "Jetson_AGX_Orin": "Jetson_AGX_Orin",
+    "Jetson_Orin_NX": "Jetson_Orin_NX",
+    "Jetson_Orin_Nano": "Jetson_Orin_Nano",
+    "Jetson_Nano_4Gb": "Jetson_Nano_4Gb"  
 }
 
 
@@ -67,10 +78,43 @@ def welcome_audio(product_name):
 
     if product_name == "Holtek_Ceiling_fan_Controller":
         display_name = product_name.replace('_', ' ')
-        welcome_text = f"Welcome to the {display_name} product assistant, Introducing the Holtek powered smart ceiling fan! Smooth, silent and efficient, it features sensorless FOC control, six speeds, and forward/reverse. Enjoy precise control with the RG remote. Built-in Safety features include over-voltage, over-current, and locked-rotor protection, if you need any more info on the HT32F65532G, please ask you query below."
+        welcome_text = f"Welcome to the {display_name} product assistant, Introducing the Holtek powered smart ceiling fan! Smooth, silent and efficient, it features sensorless FOC control, six speeds, and forward/reverse. Enjoy precise control with the RG remote. Built-in Safety features include over-voltage, over-current, and locked-rotor protection, if you need any more info on the HT32F65532G, please ask your query below."
+    elif product_name == "Holtek_high_voltage_BLDC_Motor_driver":
+        display_name = product_name.replace('_',' ')
+        welcome_text = f"Welcome to the {display_name} product assistant, This demo board evaluates Holtek's high-voltage BLDC motor driver with single-shunt FOC, RF/IR remote control, and features like speed control and power saving. It uses Holtek's HT32F65232 MCU and Power Integration's BRD1263 IPM. If you need any more info on the IC, please ask your query below. "
+    elif product_name == "Holtek_Low_voltage_High_Power_BLDC_Motor_Driver":
+        display_name = product_name.replace('_',' ')
+        welcome_text = f"Welcome to the {display_name} product assistant, This Holtek demo board evaluates low-voltage BLDC motor drivers with single-shunt FOC, RF/IR control, and features like speed and power saving. It utilizes Holtek's HT32F65532G MCU and ST/TOP Diodes MOSFETs, supporting up to 350W. If you need any more info on the IC, please ask your query below. "
+    elif product_name == "Elmos_E521.39_Knob_Illumination":
+        display_name = product_name.replace('_',' ')
+        welcome_text = f"Welcome to the {display_name} product assistant, This demo showcases an RGB LED driver for car interiors, using the ELMOS E521.39 and LIN commands for color control of knobs, buttons, and other interior lighting. If you need any more info on the IC, please ask your query below. "
+    elif product_name == "Elmos_E522.88_Automotive_Sequential_Light_Demo":
+        display_name = product_name.replace('_',' ')
+        welcome_text = f"Welcome to the {display_name} product assistant, This demo features an 8-sequence LED driver, selectable in two sets of four, triggered by commands like brake, turn signals, and start/stop. A function button switches between sets, and individual push buttons activate specific light patterns. If you need any more info on the IC, please ask your query below. "
+    elif product_name == "Elmos_E522.95_CAN_Based_Automotive_Sequential_Light":
+        display_name = product_name.replace('_',' ')
+        welcome_text = f"Welcome to the {display_name} product assistant, This demo highlights a multi-channel PWM driver controlled via CAN-FD, enabling rapid light animations. It features 16 configurable current sinks with individual 10-bit PWM, designed for in-vehicle lighting control. If you need any more info on the IC, please ask your query below. "
+    elif product_name == "Elmos_E523.06_300W_BLDC_Motor_Control_For_Cooling_Fan":
+        display_name = product_name.replace('_',' ')
+        welcome_text = f"Welcome to the {display_name} product assistant, This demo showcases the ELMOS E523.06 motor controller's ability to control and tune a 300W motor for optimal performance. If you need any more info on the IC, please ask your query below. "
+    elif product_name == "Elmos_E523.63_Coolant_Control_Valve":
+        display_name = product_name.replace('_',' ')
+        welcome_text = f"Welcome to the {display_name} product assistant, This demo highlights the ELMOS E523.63's ability to precisely control a 3-phase BLDC motor, specifically tuned for a coolant control valve application. If you need any more info on the IC, please ask your query below. "
+    elif product_name == "Elmos_E533.06_Automotive_2-Wheeler_Radiator":
+        display_name = product_name.replace('_',' ')
+        welcome_text = f"Welcome to the {display_name} product assistant, This demo board evaluates an automotive-grade, 150W BLDC motor driver using the ELMOS E533.06, featuring single-shunt FOC and speed control via PWM and LIN. If you need any more info on the IC, please ask your query below. "
     elif product_name == "Jetson_AGX_Orin":
         display_name = product_name.replace('_',' ')
-        welcome_text = f"Welcome to the {display_name} product assistant, Introducing Jetson AGX Orin, where high capacity memory meets breakthrough AI performance. Experience unprecedented computing power designed for advanced robotics, automotive, and edge applications, empower your innovations with intelligence at scale. If you want anymore info on the Jetson AGX Orin, please ask you query below. "
+        welcome_text = f"Welcome to the {display_name} product assistant, Introducing Jetson AGX Orin, where high capacity memory meets breakthrough AI performance. Experience unprecedented computing power designed for advanced robotics, automotive, and edge applications, empower your innovations with intelligence at scale. If you want anymore info on the Jetson AGX Orin, please ask your query below. "
+    elif product_name == "Jetson_Orin_NX":
+        display_name = product_name.replace('_',' ')
+        welcome_text = f"Welcome to the {display_name} product assistant, Jetson Orin NX: Small size, massive AI, unleash your edge. If you need more info, please ask your query below. "
+    elif product_name == "Jetson_Orin_Nano":
+        display_name = product_name.replace('_',' ')
+        welcome_text = f"Welcome to the {display_name} product assistant, Orin Nano 8GB: Entry-level AI, big potential, compact power. if you need more info, please ask your query below. "
+    elif product_name == "Jetson_Nano_4Gb":
+        display_name = product_name.replace('_',' ')
+        welcome_text = f"Welcome to the {display_name} product assistant, Jetson Nano 4GB: Start AI now, compact, affordable, learn and create. In you need more info , please ask your query below. "    
     audio_fp = text_to_speech(welcome_text)
     return Response(
         audio_fp.read(),
@@ -155,5 +199,5 @@ def transcribe_audio():
             return jsonify({'error': f'Processing error: {str(e)}', 'status': 'processing_error'}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5001, ssl_context=("./cert.pem", "./key.pem"))
+    app.run(debug=True, host='0.0.0.0', port=5001, ssl_context=("cert.pem", "key.pem"))
     
