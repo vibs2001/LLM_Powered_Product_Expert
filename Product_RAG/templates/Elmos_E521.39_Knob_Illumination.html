@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Previous head content remains the same -->
+<head>
+    <!-- Previous head content remains exactly the same -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Elmos E521.39 Knob Illumination Assistant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6a11cb;
+            --secondary-color: #2575fc;
+            --gradient: linear-gradient(45deg, #6a11cb, #2575fc);
+            --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--gradient);
+            color: #333;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            box-shadow: var(--box-shadow);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header img {
+            height: 50px;
+            margin-right: 15px;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        header img:hover {
+            transform: scale(1.05);
+        }
+
+        header h1 {
+            font-size: 1.8em;
+            font-weight: 600;
+            margin: 0;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        main {
+            padding: 30px;
+            max-width: 800px;
+            margin: 20px auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            box-shadow: var(--box-shadow);
+            backdrop-filter: blur(10px);
+        }
+
+        .input-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 15px;
+            margin-top: 10px;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            resize: none;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(106, 17, 203, 0.2);
+        }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        button {
+            padding: 12px 24px;
+            background: var(--gradient);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(106, 17, 203, 0.3);
+        }
+
+        button i {
+            font-size: 1.1em;
+        }
+
+        button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .voice-settings {
+            margin-top: 15px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            font-size: 0.9em;
+        }
+
+        .voice-settings h3 {
+            margin: 0 0 8px 0;
+            font-size: 1em;
+        }
+
+        .voice-settings select {
+            width: 100%;
+            padding: 6px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            margin-bottom: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9em;
+        }
+
+        .voice-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .voice-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .voice-control label {
+            font-size: 0.85em;
+            color: #666;
+            white-space: nowrap;
+            min-width: 85px;
+        }
+
+        .voice-control input {
+            width: 100%;
+            margin: 0;
+        }
+
+        .response-container {
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .response-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        pre {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 10px;
+            overflow: auto;
+            max-height: 400px;
+            font-family: 'Poppins', sans-serif;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            position: relative;
+            border: 1px solid #eee;
+            transition: all 0.3s ease;
+        }
+
+        pre:hover {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .loading {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--primary-color);
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            main {
+                margin: 10px;
+                padding: 20px;
+            }
+
+            header h1 {
+                font-size: 1.4em;
+            }
+
+            button {
+                padding: 10px 20px;
+            }
+
+            .voice-controls {
+                grid-template-columns: 1fr;
+            }
+
+            .voice-control input {
+                width: 100%;
+            }
+        }
+
+        /* New style for keyboard shortcut hint */
+        .keyboard-hint {
+            color: #666;
+            font-size: 0.8em;
+            margin-top: 5px;
+            display: block;
+        }
+        .speech-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .speech-button {
+            padding: 8px 16px;
+            background: var(--gradient);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .speech-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(106, 17, 203, 0.2);
+        }
+
+        .speech-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .speech-button i {
+            font-size: 1em;
+        }
+        #mic-btn {
+            background: #dc3545;
+            position: relative;
+        }
+        #mic-btn.listening {
+            background: #28a745;
+            animation: pulse 1.5s infinite;
+        }
+    #mic-btn .stop-icon {
+        display: none;
+    }
+    #mic-btn.listening .mic-icon {
+        display: none;
+    }
+    #mic-btn.listening .stop-icon {
+        display: inline-block;
+    }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .banner-image {
+    text-align: center;
+    margin: 0 auto 30px;
+    max-width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+}
+
+.banner-image img {
+    width: 70%;
+    height: 500px;
+    max-height: 500px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.banner-image:hover img {
+    transform: scale(1.02);
+}
+
+@media (max-width: 768px) {
+    .banner-image {
+        margin-bottom: 20px;
+        border-radius: 12px;
+    }
+}
+    </style>
+</head>
+<body>
+    <header>
+        <img src="{{ url_for('static', filename='images/Untitled.jpg') }}" alt="RPTech">
+        <h1>Elmos E521.39 Knob Illumination Assistant</h1>
+    </header>
+    <main>
+        <div class="banner-image">
+            <img src="{{ url_for('static', filename='images/e521.39.png') }}" alt="Elmos E521.39 Knob Illumination" />
+        </div> 
+        <div class="input-container">
+            <h2>Ask your questions:</h2>
+            <form id="query-form" method="post">
+                <textarea id="query" name="query" rows="4" placeholder="Type your query here..."></textarea>
+                <span class="keyboard-hint">Press Enter to submit, Shift+Enter for new line</span>
+                <div class="button-container">
+                    <button type="submit" id="submit-btn">
+                        <i class="fas fa-paper-plane"></i>
+                        Submit
+                    </button>
+                    <button id="startRecording">Start Recording</button>
+<button id="stopRecording" disabled>Stop Recording</button>
+<div id="recordingStatus"></div>
+                </div>
+            </form>
+        </div>
+        
+        <div class="response-container">
+            <div class="response-header">
+                <h2>Response:</h2>
+                <div class="loading">
+                    <i class="fas fa-circle-notch fa-spin fa-2x"></i>
+                </div>
+            </div>
+            <pre id="response"></pre>
+        </div>
+
+        <div class="voice-settings">
+            <h3>Voice Settings</h3>
+            <select id="voice-select">
+                <option value="">Loading voices...</option>
+            </select>
+            <div class="voice-controls">
+                <div class="voice-control">
+                    <label for="rate">Speed: <span id="rate-value">1</span></label>
+                    <input type="range" id="rate" min="0.5" max="2" value="1" step="0.1">
+                </div>
+                <div class="voice-control">
+                    <label for="pitch">Pitch: <span id="pitch-value">1</span></label>
+                    <input type="range" id="pitch" min="0.5" max="2" value="1" step="0.1">
+                </div>
+            </div>
+        </div>
+        <div class="speech-controls">
+            <button id="pause-resume" class="speech-button" disabled>
+                <i class="fas fa-pause"></i>
+                Pause
+            </button>
+            <button id="stop-speech" class="speech-button" disabled>
+                <i class="fas fa-stop"></i>
+                Stop
+            </button>
+        </div>
+    </div>
+    </main>
+
+    <script>
+        const form = document.getElementById('query-form');
+        const textarea = document.getElementById('query');
+        const responseElement = document.getElementById('response');
+        const submitButton = document.getElementById('submit-btn');
+        const loading = document.querySelector('.loading');
+        const voiceSelect = document.getElementById('voice-select');
+        const rateInput = document.getElementById('rate');
+        const pitchInput = document.getElementById('pitch');
+        const rateValue = document.getElementById('rate-value');
+        const pitchValue = document.getElementById('pitch-value');
+        const pauseResumeBtn = document.getElementById('pause-resume');
+        const stopSpeechBtn = document.getElementById('stop-speech');
+        let isSpeaking = false;
+        let isPaused = false;
+        // Add event listener for textarea
+        textarea.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault(); // Prevent newline
+                if (textarea.value.trim()) { // Only submit if there's content
+                    form.dispatchEvent(new Event('submit'));
+                }
+            }
+        });
+
+        // Speech synthesis setup
+        const synth = window.speechSynthesis;
+        let utterance = null;
+        let voices = [];
+        rateInput.value = 1.2;
+        rateValue.textContent = "1.2";
+        function updateSpeechControls(speaking) {
+            isSpeaking = speaking;
+            pauseResumeBtn.disabled = !speaking;
+            stopSpeechBtn.disabled = !speaking;
+            if (!speaking) {
+                pauseResumeBtn.innerHTML = '<i class="fas fa-pause"></i> Pause';
+            }
+        }
+
+            let mediaRecorder;
+        let audioChunks = [];
+
+function setupAudioRecording() {
+    const startButton = document.getElementById('startRecording');
+    const stopButton = document.getElementById('stopRecording');
+    const statusElement = document.getElementById('recordingStatus');
+    
+    if (!startButton || !stopButton) {
+        console.error("Recording buttons not found in the DOM");
+        return;
+    }
+    
+    startButton.addEventListener('click', async () => {
+        try {
+            // Request audio with specific constraints for better compatibility
+            const stream = await navigator.mediaDevices.getUserMedia({
+                audio: {
+                    echoCancellation: true,
+                    noiseSuppression: true,
+                    sampleRate: 44100,
+                }
+            });
+            
+            statusElement.textContent = "Recording...";
+            startButton.disabled = true;
+            stopButton.disabled = false;
+            
+            audioChunks = [];
+            // Specify audio/wav MIME type for better compatibility
+            mediaRecorder = new MediaRecorder(stream, {
+                mimeType: 'audio/webm;codecs=opus'
+            });
+            
+            mediaRecorder.ondataavailable = (event) => {
+                audioChunks.push(event.data);
+            };
+            
+            mediaRecorder.onstop = sendAudioToServer;
+            
+            // Request data every second to ensure we capture audio
+            mediaRecorder.start(1000);
+        } catch (err) {
+            console.error("Error accessing microphone:", err);
+            alert("Error accessing microphone: " + err.message);
+        }
+    });
+    
+    stopButton.addEventListener('click', () => {
+        if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+            mediaRecorder.stop();
+            statusElement.textContent = "Processing...";
+            startButton.disabled = false;
+            stopButton.disabled = true;
+        }
+    });
+}
+
+function sendAudioToServer() {
+    // Create a WAV or WebM blob (WebM is more widely supported)
+    const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+    const formData = new FormData();
+    formData.append('audio', audioBlob, 'recording.webm');
+    
+    // Add debugging to see the file before sending
+    console.log("Audio blob size:", audioBlob.size, "bytes");
+    
+    fetch('/transcribe', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.json().then(data => {
+                throw new Error(data.error || 'Network response was not ok');
+            });
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.text) {
+            document.getElementById('query').value = data.text;
+            document.getElementById('recordingStatus').textContent = "Transcription complete!";
+        } else {
+            document.getElementById('recordingStatus').textContent = "Transcription failed: " + (data.error || "Unknown error");
+        }
+    })
+    .catch(error => {
+        console.error('Error sending audio:', error);
+        document.getElementById('recordingStatus').textContent = "Error: " + error.message;
+    });
+}
+
+document.addEventListener('DOMContentLoaded', setupAudioRecording);
+
+
+        pauseResumeBtn.addEventListener('click', () => {
+            if (synth.paused) {
+                synth.resume();
+                pauseResumeBtn.innerHTML = '<i class="fas fa-pause"></i> Pause';
+            } else {
+                synth.pause();
+                pauseResumeBtn.innerHTML = '<i class="fas fa-play"></i> Resume';
+            }
+        });
+
+        stopSpeechBtn.addEventListener('click', () => {
+            synth.cancel();
+            updateSpeechControls(false);
+            pauseResumeBtn.innerHTML = '<i class="fas fa-pause"></i> Pause';
+        });
+
+        // Modified speakText function
+        function speakText(text) {
+            if (utterance) {
+                synth.cancel(); // Stop any ongoing speech
+            }
+            utterance = new SpeechSynthesisUtterance(text);
+            
+            utterance.onpause = () => {
+                pauseResumeBtn.innerHTML = '<i class="fas fa-play"></i> Resume';
+            };
+            
+            utterance.onresume = () => {
+                pauseResumeBtn.innerHTML = '<i class="fas fa-pause"></i> Pause';
+            };
+
+            // Apply selected voice
+            const selectedVoice = voices[voiceSelect.value];
+            if (selectedVoice) {
+                utterance.voice = selectedVoice;
+            }
+
+            // Apply rate and pitch
+            utterance.rate = parseFloat(rateInput.value);
+            utterance.pitch = parseFloat(pitchInput.value);
+
+            // Add event listeners for speech state
+            utterance.onstart = () => {
+                updateSpeechControls(true);
+                pauseResumeBtn.innerHTML = '<i class="fas fa-pause"></i> Pause';
+            };
+
+            utterance.onend = () => {
+                updateSpeechControls(false);
+                pauseResumeBtn.innerHTML = '<i class="fas fa-pause"></i> Pause';
+            };
+
+            utterance.onerror = () => {
+                updateSpeechControls(false);
+            };
+
+            synth.speak(utterance);
+        }
+        // Function to populate voice list
+        function populateVoiceList() {
+            voices = synth.getVoices();
+            voiceSelect.innerHTML = voices
+                .map((voice, index) => 
+                    `<option value="${index}">
+                        ${voice.name} (${voice.lang})
+                        ${voice.default ? ' — Default' : ''}
+                    </option>`)
+                .join('');
+            
+            const defaultVoice = voices.find(voice => voice.name === "Microsoft Susan" && voice.lang === "en-GB");
+            if (defaultVoice) {
+                voiceSelect.value = voices.indexOf(defaultVoice);
+            }
+        }
+
+        // Initialize voice list
+        populateVoiceList();
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = populateVoiceList;
+        }
+
+        // Update displayed values for rate and pitch
+        rateInput.addEventListener('input', (e) => {
+            rateValue.textContent = e.target.value;
+        });
+
+        pitchInput.addEventListener('input', (e) => {
+            pitchValue.textContent = e.target.value;
+        });
+
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const query = textarea.value.trim();
+            
+            if (!query) return; // Don't submit if empty
+            
+            // Reset states
+            responseElement.textContent = "";
+            loading.classList.add('active');
+            submitButton.disabled = true;
+            if (utterance) {
+                synth.cancel();
+            }
+
+            try {
+                
+                const response = await fetch('/qa/Elmos_E521.39_Knob_Illumination', {
+                    method: 'POST',
+                    body: new URLSearchParams({ query: query }),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                });
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let accumulatedText = '';
+
+                while (true) {
+                    const { value, done } = await reader.read();
+                    if (done) break;
+                    
+                    const text = decoder.decode(value);
+                    responseElement.textContent += text;
+                    accumulatedText += text;
+
+                    // Speak when we have a complete sentence or significant chunk
+                    if (text.includes('.') || text.includes('!') || text.includes('?')) {
+                        speakText(text);
+                    }
+                }
+
+                // Speak any remaining text
+                if (accumulatedText) {
+                    speakText(accumulatedText);
+                }
+
+            } catch (error) {
+                responseElement.textContent = "An error occurred while fetching the response.";
+                speakText("An error occurred while fetching the response.");
+            } finally {
+                loading.classList.remove('active');
+                submitButton.disabled = false;
+            }
+        });
+
+        // Cleanup speech synthesis when leaving the page
+        window.addEventListener('beforeunload', () => {
+            if (synth) {
+                synth.cancel();
+                updateSpeechControls(false);
+            }
+        });
+        window.onload = function() {
+            // Create audio element
+            var welcomeAudio = new Audio("{{ url_for('welcome_audio', product_name=product_name) }}");
+            
+            // Play the welcome message
+            welcomeAudio.play().catch(function(error) {
+                console.log("Audio playback failed:", error);
+            });
+        };
+    </script>
+</body>
+</html>

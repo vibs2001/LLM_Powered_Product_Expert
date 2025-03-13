@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RPTech Product Expert</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6a11cb;
+            --secondary-color: #2575fc;
+            --gradient: linear-gradient(45deg, #6a11cb, #2575fc);
+            --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--gradient);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #333;
+        }
+
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            box-shadow: var(--box-shadow);
+            backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 10;
+        }
+
+        header img {
+            height: 60px;
+            margin-right: 20px;
+            border-radius: 10px;
+            transition: var(--transition);
+        }
+
+        header img:hover {
+            transform: scale(1.05);
+        }
+
+        header h1 {
+            font-size: 2.2em;
+            font-weight: 600;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        .welcome-text {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            max-width: 800px;
+        }
+
+        .welcome-text h2 {
+            font-size: 2em;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .welcome-text p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .product-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100px;
+            box-shadow: var(--box-shadow);
+            text-decoration: none;
+            color: #333;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 30px rgba(106, 17, 203, 0.2);
+        }
+
+        .product-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .product-title {
+            font-size: 1.8em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .product-description {
+            font-size: 1em;
+            line-height: 1.6;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .explore-button {
+            background: var(--gradient);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+
+            font-weight: 500;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .explore-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(106, 17, 203, 0.3);
+        }
+
+        footer {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #666;
+            margin-top: auto;
+        }
+
+        @media (max-width: 900px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+            }
+
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .welcome-text h2 {
+                font-size: 1.6em;
+            }
+
+            .product-card {
+                min-height: 250px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 15px;
+            }
+
+            header img {
+                height: 40px;
+            }
+
+            header h1 {
+                font-size: 1.4em;
+            }
+
+            .welcome-text h2 {
+                font-size: 1.4em;
+            }
+
+            .product-title {
+                font-size: 1.4em;
+            }
+
+            .product-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="{{ url_for('static', filename='images/Untitled.jpg') }}" alt="RPTech Logo">
+        <h1>RPTech Porduct Expert</h1>
+    </header>
+
+    <main>
+        <div class="welcome-text">
+            <h2>Welcome to RPTech's LLM Powered Product Expert</h2>
+            <p>Select a product to explore detailed information and get answers to your questions</p>
+        </div>
+
+        <div class="product-grid">
+            <a href="{{ url_for('qa_page', product_name='Holtek_Ceiling_fan_Controller') }}" class="product-card">
+                <i class="fas fa-microchip product-icon"></i>
+                <h3 class="product-title">Holtek Ceiling Fan Controller</h3>
+                <p class="product-description">
+
+                </p>
+                <button class="explore-button">Explore Product</button>
+            </a>
+            <a href="{{ url_for('qa_page', product_name='Holtek_high_voltage_BLDC_Motor_driver') }}" class="product-card">
+                <i class="fas fa-microchip product-icon"></i>
+                <h3 class="product-title">HT High Voltage BLDC Motor Driver</h3>
+                <p class="product-description">
+                </p>
+                <button class="explore-button">Explore Product</button>
+            </a>
+            <a href="{{ url_for('qa_page', product_name='Holtek_Low_voltage_High_Power_BLDC_Motor_Driver') }}" class="product-card">
+                <i class="fas fa-microchip product-icon"></i>
+                <h3 class="product-title">HT Low Voltage High Power BLDC Motor Driver</h3>
+                <p class="product-description">
+                </p>
+                <button class="explore-button">Explore Product</button>
+            </a>
+            <a href="{{ url_for('qa_page', product_name='Elmos_E521.39_Knob_Illumination') }}" class="product-card">
+                <i class="fas fa-microchip product-icon"></i>
+                <h3 class="product-title">Elmos E521.39 Knob Illumination</h3>
+                <p class="product-description">
+                </p>
+                <button class="explore-button">Explore Product</button>
+            </a>
+            <a href="{{ url_for('qa_page', product_name='Elmos_E522.88_Automotive_Sequential_Light_Demo') }}" class="product-card">
+                <i class="fas fa-microchip product-icon"></i>
+                <h3 class="product-title">Elmos E522.88 Automotive Sequential Light Demo</h3>
+                <p class="product-description">
+                </p>
+                <button class="explore-button">Explore Product</button>
+            </a>
+            <a href="{{ url_for('qa_page', product_name='Elmos_E522.95_CAN_Based_Automotive_Sequential_Light') }}" class="product-card">
+                <i class="fas fa-microchip product-icon"></i>
+                <h3 class="product-title">Elmos E522.95 CAN Based Automotive Sequential Light</h3>
+                <p class="product-description">
+                </p>
+                <button class="explore-button">Explore Product</button>
+            </a>
+            <a href="{{ url_for('qa_page', product_name='Elmos_E523.06_300W_BLDC_Motor_Control_For_Cooling_Fan') }}" class="product-card">
+                <i class="fas fa-microchip product-icon"></i>
+                <h3 class="product-title">Elmos E523.06 300W BLDC Motor Control For Cooling Fans</h3>
+                <p class="product-description">
+                </p>
+                <button class="explore-button">Explore Product</button>
+            </a>
+            <a href="{{ url_for('qa_page', product_name='Elmos_E523.63_Coolant_Control_Valve') }}" class="product-card">
+                <i class="fas fa-microchip product-icon"></i>
+                <h3 class="product-title">Elmos E523.63 Coolant Control Valve</h3>
+                <p class="product-description">
+                </p>
+                <button class="explore-button">Explore Product</button>
+            </a>
+            <a href="{{ url_for('qa_page', product_name='Elmos_E533.06_Automotive_2-Wheeler_Radiator') }}" class="product-card">
+                <i class="fas fa-microchip product-icon"></i>
+                <h3 class="product-title">Elmos E533.06 Automotive 2-Wheeler Radiator</h3>
+                <p class="product-description">
+                </p>
+                <button class="explore-button">Explore Product</button>
+            </a>
+            <a href="{{ url_for('qa_page', product_name='Jetson_AGX_Orin') }}" class="product-card">
+                <i class="fas fa-robot product-icon"></i>
+                <h3 class="product-title">Nvidia Jetson AGX Orin</h3>
+                <p class="product-description">
+                </p>
+                <button class="explore-button">Explore Product</button>
+            </a>
+            <a href="{{ url_for('qa_page', product_name='Jetson_Orin_NX') }}" class="product-card">
+                <i class="fas fa-robot product-icon"></i>
+                <h3 class="product-title">Nvidia Jetson Orin NX</h3>
+                <p class="product-description">
+                </p>
+                <button class="explore-button">Explore Product</button>
+            </a>
+            <a href="{{ url_for('qa_page', product_name='Jetson_Orin_Nano') }}" class="product-card">
+                <i class="fas fa-robot product-icon"></i>
+                <h3 class="product-title">Nvidia Jetson Orin Nano</h3>
+                <p class="product-description">
+                </p>
+                <button class="explore-button">Explore Product</button>
+            </a>
+            <a href="{{ url_for('qa_page', product_name='Jetson_Nano_4Gb') }}" class="product-card">
+                <i class="fas fa-robot product-icon"></i>
+                <h3 class="product-title">Nvidia Jetson Nano 4Gb</h3>
+                <p class="product-description">
+                </p>
+                <button class="explore-button">Explore Product</button>
+            </a>
+
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 RPTech Solutions. All rights reserved.</p>
+    </footer>
+</body>
+</html>
